@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python visualize_results.py:*)",
+      "Bash(ls:*)",
+      "Bash(python:*)",
+      "Bash(wc:*)",
+      "Bash(if [ -f \"DJI_2016_2025.csv\" ])",
+      "Bash(then mv DJI_2016_2025.csv data/)",
+      "Bash(else echo \"ℹ️  DJI_2016_2025.csv not found in root\")",
+      "Bash(fi:*)",
+      "Bash(timeout 120 python scripts/train.py:*)",
+      "Bash(pip install:*)",
+      "Bash(git --version:*)",
+      "Bash(git init:*)",
+      "Bash(git config:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

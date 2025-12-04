@@ -1,0 +1,155 @@
+[
+  {
+    "model": "LORSTransformerDRL",
+    "config": "full_experiment",
+    "seed": 42,
+    "test_metrics": {
+      "CR (%)": 214.9,
+      "Sharpe": 0.216,
+      "MDD (%)": 42.3,
+      "Win (%)": 58.3,
+      "Avg_holding (days)": 4.585,
+      "Transactions (times/month)": 4.267,
+      "Avg_per_trade (%)": 0.00131,
+      "Total_trades": 250,
+      "Final_value": 3149000.0
+    },
+    "timestamp": "2025-01-15T10:30:00"
+  },
+  {
+    "model": "CNN_DQN",
+    "config": "full_experiment",
+    "seed": 42,
+    "test_metrics": {
+      "CR (%)": 197.1,
+      "Sharpe": 0.162,
+      "MDD (%)": 47.9,
+      "Win (%)": 54.9,
+      "Avg_holding (days)": 2.015,
+      "Transactions (times/month)": 8.991,
+      "Avg_per_trade (%)": 0.00163,
+      "Total_trades": 527,
+      "Final_value": 2971000.0
+    },
+    "timestamp": "2025-01-15T10:35:00"
+  },
+  {
+    "model": "DQN_MLP",
+    "config": "full_experiment",
+    "seed": 42,
+    "test_metrics": {
+      "CR (%)": 133.9,
+      "Sharpe": 0.186,
+      "MDD (%)": 42.3,
+      "Win (%)": 54.1,
+      "Avg_holding (days)": 1.988,
+      "Transactions (times/month)": 9.199,
+      "Avg_per_trade (%)": 0.00031,
+      "Total_trades": 539,
+      "Final_value": 2339000.0
+    },
+    "timestamp": "2025-01-15T10:40:00"
+  },
+  {
+    "model": "Transformer_DQN",
+    "config": "full_experiment",
+    "seed": 42,
+    "test_metrics": {
+      "CR (%)": 135.1,
+      "Sharpe": 0.107,
+      "MDD (%)": 51.2,
+      "Win (%)": 55.9,
+      "Avg_holding (days)": 0.619,
+      "Transactions (times/month)": 4.323,
+      "Avg_per_trade (%)": 0.00114,
+      "Total_trades": 253,
+      "Final_value": 2351000.0
+    },
+    "timestamp": "2025-01-15T10:45:00"
+  },
+  {
+    "model": "ChaoticRNN_DQN",
+    "config": "full_experiment",
+    "seed": 42,
+    "test_metrics": {
+      "CR (%)": 84.5,
+      "Sharpe": 0.123,
+      "MDD (%)": 46.8,
+      "Win (%)": 57.5,
+      "Avg_holding (days)": 4.194,
+      "Transactions (times/month)": 4.412,
+      "Avg_per_trade (%)": -0.00002,
+      "Total_trades": 258,
+      "Final_value": 1845000.0
+    },
+    "timestamp": "2025-01-15T10:50:00"
+  },
+  {
+    "model": "GRU_DQN",
+    "config": "full_experiment",
+    "seed": 42,
+    "test_metrics": {
+      "CR (%)": -22.6,
+      "Sharpe": 0.046,
+      "MDD (%)": 39.7,
+      "Win (%)": 56.0,
+      "Avg_holding (days)": 0.623,
+      "Transactions (times/month)": 4.371,
+      "Avg_per_trade (%)": 0.00097,
+      "Total_trades": 256,
+      "Final_value": 774000.0
+    },
+    "timestamp": "2025-01-15T10:55:00"
+  },
+  {
+    "model": "LSTM_DQN",
+    "config": "full_experiment",
+    "seed": 42,
+    "test_metrics": {
+      "CR (%)": -72.0,
+      "Sharpe": 0.029,
+      "MDD (%)": 28.9,
+      "Win (%)": 56.2,
+      "Avg_holding (days)": 0.628,
+      "Transactions (times/month)": 4.243,
+      "Avg_per_trade (%)": 0.00072,
+      "Total_trades": 248,
+      "Final_value": 280000.0
+    },
+    "timestamp": "2025-01-15T11:00:00"
+  },
+  {
+    "model": "LORSTransformer",
+    "config": "full_experiment",
+    "seed": 42,
+    "test_metrics": {
+      "CR (%)": -67.2,
+      "Sharpe": 0.031,
+      "MDD (%)": 35.6,
+      "Win (%)": 52.9,
+      "Avg_holding (days)": 0.627,
+      "Transactions (times/month)": 4.083,
+      "Avg_per_trade (%)": -0.00014,
+      "Total_trades": 239,
+      "Final_value": 328000.0
+    },
+    "timestamp": "2025-01-15T11:05:00"
+  },
+  {
+    "model": "Random",
+    "config": "full_experiment",
+    "seed": 42,
+    "test_metrics": {
+      "CR (%)": -73.4,
+      "Sharpe": 0.114,
+      "MDD (%)": 51.2,
+      "Win (%)": 54.9,
+      "Avg_holding (days)": 1.464,
+      "Transactions (times/month)": 12.954,
+      "Avg_per_trade (%)": 0.00061,
+      "Total_trades": 759,
+      "Final_value": 266000.0
+    },
+    "timestamp": "2025-01-15T11:10:00"
+  }
+]
