@@ -1,6 +1,10 @@
 """
 Configuration Module - Hyperparameter Settings
 Strictly aligned with Paper Section 4.1: Experimental Setup
+
+Extended for Graph-LORS Trader:
+- Graph configuration for dynamic correlation graphs
+- New model configurations for graph-enhanced models
 """
 
 # ============================================================================
@@ -23,6 +27,38 @@ DATA_CONFIG = {
         'val': 0.2,
         'test': 0.2
     },
+}
+
+# ============================================================================
+# Graph Configuration (New for Graph-LORS Trader)
+# ============================================================================
+GRAPH_CONFIG = {
+    # Asset configuration
+    'target': '^DJI',
+    'context_assets': ['^GSPC', '^VIX', 'GC=F', 'DX-Y.NYB'],
+
+    # Data paths
+    'price_matrix_path': 'data/price_matrix_2016_2025.csv',
+    'multi_asset_path': 'data/multi_asset_2016_2025.csv',
+    'graph_target_path': 'data/DJI_graph_2016_2025.csv',
+
+    # Graph construction parameters
+    'correlation_window': 60,          # Rolling window for correlation
+    'top_k': 3,                        # Sparsification parameter
+
+    # Node feature columns (10 features from GraphNodeFeatureBuilder)
+    'node_features': [
+        'Return_Mean', 'Return_Std', 'Return_Skew',           # 3
+        'Momentum_5d', 'Momentum_20d', 'Momentum_60d',        # 3
+        'Volatility_10d', 'Volatility_20d',                   # 2
+        'Relative_Strength', 'Trend_vs_MA'                    # 2
+    ],
+
+    # Graph encoder parameters
+    'node_feature_dim': 10,            # Number of node features (must match GraphNodeFeatureBuilder)
+    'graph_hidden_dim': 32,            # GAT hidden dimension
+    'context_dim': 64,                 # Graph context vector dimension
+    'graph_heads': 4,                  # Number of GAT attention heads
 }
 
 # ============================================================================
@@ -165,6 +201,61 @@ MODEL_CONFIG = {
         'window_size': 120,
         'output_dim': 3,
     },
+
+    # =========================================================================
+    # Graph-Enhanced Models (New)
+    # =========================================================================
+
+    # GraphLORSTrader (Main model for Graph-LORS paper)
+    'GraphLORSTrader': {
+        # Target encoder params (same as LORSTransformerDRL)
+        'input_dim': 10,
+        'embed_dim': 128,
+        'num_heads': 8,
+        'hidden_dim': 256,
+        'n_layers': 3,
+        'dropout': 0.15,
+        # Graph encoder params
+        'n_assets': 5,
+        'node_feature_dim': 10,
+        'graph_hidden_dim': 32,
+        'context_dim': 64,
+        'graph_heads': 4,
+        # Output
+        'output_dim': 3,
+    },
+
+    # GraphTransformer (Ablation: Graph + Transformer, no LORS)
+    'GraphTransformer': {
+        'input_dim': 10,
+        'embed_dim': 128,
+        'num_heads': 8,
+        'hidden_dim': 256,
+        'n_layers': 3,
+        'dropout': 0.15,
+        'n_assets': 5,
+        'node_feature_dim': 10,
+        'graph_hidden_dim': 32,
+        'context_dim': 64,
+        'graph_heads': 4,
+        'output_dim': 3,
+    },
+
+    # StaticGraphLORS (Ablation: Static graph, isolate dynamic graph contribution)
+    'StaticGraphLORS': {
+        'input_dim': 10,
+        'embed_dim': 128,
+        'num_heads': 8,
+        'hidden_dim': 256,
+        'n_layers': 3,
+        'dropout': 0.15,
+        'n_assets': 5,
+        'node_feature_dim': 10,
+        'graph_hidden_dim': 32,
+        'context_dim': 64,
+        'graph_heads': 4,
+        'output_dim': 3,
+    },
 }
 
 # ============================================================================
@@ -178,7 +269,7 @@ EXPERIMENT_CONFIG = {
         'seeds': [42],
     },
 
-    # Full experiment mode
+    # Full experiment mode (original baselines)
     'full_experiment': {
         'max_episodes': 100,
         'models': [
@@ -193,6 +284,39 @@ EXPERIMENT_CONFIG = {
             'DQN_MLP',
         ],
         'seeds': [42, 43, 44, 45, 46],
+    },
+
+    # Graph model quick test
+    'graph_quick_test': {
+        'max_episodes': 5,
+        'models': ['GraphLORSTrader'],
+        'seeds': [42],
+        'use_graph': True,
+    },
+
+    # Graph model full experiment
+    'graph_full_experiment': {
+        'max_episodes': 100,
+        'models': [
+            'GraphLORSTrader',      # Main model
+            'GraphTransformer',     # Ablation: no LORS
+            'StaticGraphLORS',      # Ablation: static graph
+            'LORSTransformerDRL',   # Baseline: no graph
+        ],
+        'seeds': [42, 43, 44, 45, 46],
+        'use_graph': True,
+    },
+
+    # Ablation study: Graph type comparison
+    'graph_ablation': {
+        'max_episodes': 100,
+        'models': [
+            'LORSTransformerDRL',   # No graph
+            'StaticGraphLORS',      # Static graph
+            'GraphLORSTrader',      # Dynamic graph
+        ],
+        'seeds': [42, 43, 44, 45, 46],
+        'use_graph': True,
     },
 }
 
@@ -222,17 +346,20 @@ def get_config(mode='quick_test'):
     Get complete configuration for specified mode
 
     Args:
-        mode: 'quick_test' or 'full_experiment'
+        mode: One of:
+            - 'quick_test': Quick debugging (original models)
+            - 'full_experiment': Full experiment (original models)
+            - 'graph_quick_test': Quick debugging (graph models)
+            - 'graph_full_experiment': Full experiment (graph models)
+            - 'graph_ablation': Ablation study for graph contribution
 
     Returns:
         Complete configuration dictionary
     """
-    if mode == 'quick_test':
-        exp_config = EXPERIMENT_CONFIG['quick_test']
-    elif mode == 'full_experiment':
-        exp_config = EXPERIMENT_CONFIG['full_experiment']
-    else:
-        raise ValueError(f"Unknown mode: {mode}")
+    if mode not in EXPERIMENT_CONFIG:
+        raise ValueError(f"Unknown mode: {mode}. Available: {list(EXPERIMENT_CONFIG.keys())}")
+
+    exp_config = EXPERIMENT_CONFIG[mode]
 
     config = {
         'data': DATA_CONFIG,
@@ -241,9 +368,20 @@ def get_config(mode='quick_test'):
         'train': {**TRAIN_CONFIG, **exp_config},
         'models': MODEL_CONFIG,
         'vis': VIS_CONFIG,
+        'graph': GRAPH_CONFIG,
     }
 
     return config
+
+
+def get_graph_config():
+    """
+    Get graph-specific configuration
+
+    Returns:
+        Graph configuration dictionary
+    """
+    return GRAPH_CONFIG.copy()
 
 
 def print_config(config):

@@ -29,13 +29,11 @@ Unlike traditional "forecast-then-decide" approaches, this system directly optim
 │   ├── agents/            # RL agents (DQN)
 │   ├── environment/       # Trading environment simulator
 │   ├── utils/             # Utilities (config, data, metrics)
-│   └── visualization/     # Plotting and analysis tools
 ├── scripts/               # Execution scripts
 │   ├── train.py          # Training script
 │   ├── evaluate.py       # Evaluation script
 │   └── fetch_data.py     # Data fetching
 ├── data/                  # Market data
-├── checkpoints/           # Trained model weights
 ├── logs/                  # Training logs
 ├── results/               # Experiment results
 ├── figures/               # Generated visualizations
@@ -104,14 +102,6 @@ Train all models with multiple seeds:
 
 ```bash
 python scripts/train.py --all --full --episodes 100
-```
-
-### 4. Visualization
-
-Generate figures from experiment results:
-
-```bash
-python src/visualization/plot_results.py results/<experiment_file>.json
 ```
 
 ## Models

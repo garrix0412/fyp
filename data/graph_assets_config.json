@@ -1,0 +1,23 @@
+{
+  "target": "^DJI",
+  "context": [
+    "^GSPC",
+    "^VIX",
+    "GC=F",
+    "DX-Y.NYB"
+  ],
+  "all_assets": [
+    "^DJI",
+    "^GSPC",
+    "^VIX",
+    "GC=F",
+    "DX-Y.NYB"
+  ],
+  "start_date": "2016-01-01",
+  "end_date": "2025-01-01",
+  "n_trading_days": 2176,
+  "date_range": [
+    "2016-05-05 00:00:00",
+    "2024-12-31 00:00:00"
+  ]
+}
